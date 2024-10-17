@@ -15,9 +15,7 @@
   
 
 
-
-
-#Future works 
+# Future works 
 ## for multi users and multi-spaces
 - ask for the user id
 - define a room

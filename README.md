@@ -2,6 +2,11 @@
 # Installation
 ## Server side
 - Install python3 requirements
+- Create the mqtt container
+```bash
+   cd mqtt5
+   docker compose up
+```  
 - Run the flask application
 ```python
    cd api-service

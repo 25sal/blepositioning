@@ -19,45 +19,34 @@ db.init_app(app)
 
 
 
-'''
-def create_db():
-    if os.path.isfile(dbname):
-        os.remove(dbname)
-    
-    conn = sqlite3.connect(dbname)
-    query = 'CREATE TABLE positions ' \
-            '(id	INTEGER NOT NULL, x NOT NULL, y	REAL NOT NULL, ' \
-            'z	REAL NOT NULL, ' \
-            'postime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, '   \
-            'PRIMARY KEY(id AUTOINCREMENT))'
-    
-    c = conn.cursor()
-    c.execute(query)
-    conn.commit()
-    conn.close()
-'''
-
-
 
 @app.route('/')
 def index():
    return render_template('index.html')
 
+
+#this method will return the last updated positions of the one individual or object
 @app.route('/api-service/position')
 def position():
     #get the id from the request
     id = request.args.get('id')
     result = get_position(id)
     
-    #t = text('SELECT id, x,y,z,sqltime FROM positions where id = :val1 ORDER BY sqltime DESC LIMIT 1')
-    #result = db.session.execute(t, {'val1': id}).fetchall()
     if result is None:
         return jsonify({'error': 'Data not found'})
     else:
         # return the result as a json
         return jsonify({'id': result.id, 'x': result.x, 'y': result.y, 'z': result.z, 'sqltime': result.sqltime})
 
+#this method will get the updated positions of all the objects and individuals after a certain time
+@app.route('/api-service/updates', methods=['GET'])
+def updates():
+    pass
 
+#this method will update the position of an individual or object
+@app.route('/api-service/update', methods=['POST'])
+def updates():
+    pass
 
 """ Creating Database with App Context"""
 def create_db():
@@ -67,5 +56,5 @@ def create_db():
 if __name__ == '__main__':
     from models import Positions
     create_db()
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)
         

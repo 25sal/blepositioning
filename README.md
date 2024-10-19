@@ -13,7 +13,18 @@
    python3 app.py
 ```
 - run the predictor (which receive the rssi data, computes the user position and use the api-service to update it)
-  
+
+```python
+   python3 predictor/aipredictor.py
+```
+## To simulate the device
+The simulated device read from a csv files the rssi value to be sent.
+Timestamp are increasing integer from 0
+
+```python
+   python3 simulation/device.py
+```  
+
 ## Client side
 - Install the app and configure user id, and mqtt address
 - Open the browser

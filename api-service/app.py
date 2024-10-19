@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from sqlalchemy import text
 from database import db
-from models import get_position
+from models import get_position, update_position
  
 # Creating Flask App
 app = Flask(__name__)
@@ -40,13 +40,16 @@ def position():
 
 #this method will get the updated positions of all the objects and individuals after a certain time
 @app.route('/api-service/updates', methods=['GET'])
-def updates():
+def get_updates():
     pass
 
 #this method will update the position of an individual or object
 @app.route('/api-service/update', methods=['POST'])
-def updates():
-    pass
+def pos_update():
+    data = request.get_json()
+    update_position(data['id'], data)
+    return jsonify({'status': 'success'})
+    
 
 """ Creating Database with App Context"""
 def create_db():

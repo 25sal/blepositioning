@@ -19,16 +19,16 @@ function setBleCamera(){
     const camera = document.querySelector('#myCamera');
     getMyPosition().then((position) => {
         console.log(position);
-        //camera.setAttribute('position', {x: position.x, y: position.y, z: position.z});
+        camera.setAttribute('position', {x: position.x, y: position.y, z: position.z});
     });
-    
+    /*
     if(random==0)
         camera.setAttribute('position', {x: camera.object3D.position.x, y: camera.object3D.position.y, z: camera.object3D.position.z+1});
     else
         camera.setAttribute('position', {x: camera.object3D.position.x, y: camera.object3D.position.y, z: camera.object3D.position.z-1});
 
      random = (random+1)%2;
-
+    */
 }
 
 setInterval(() => {

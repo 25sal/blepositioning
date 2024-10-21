@@ -2,12 +2,12 @@ import paho.mqtt.client as mqttClient
 import json
 import pandas as pd
 import paho
+from datetime import datetime
 import time
-
 
 if __name__ == "__main__":
 
-    df =pd.read_csv('data/trace.csv')
+    df =pd.read_csv('data/test/3.Avanti_indietro_centrale.csv')
     print(df.head())
     
 
@@ -22,13 +22,14 @@ if __name__ == "__main__":
     client.connect("127.0.0.1", 1883, 60)
     
     timestamp = 0
-    for index, row in df.iterrows():
-        for i in range(3,len(df.columns)):
+    while True:
+        for index, row in df.iterrows():
+            epoch = datetime.strptime(row[0],"%Y-%m-%dT%H:%M:%S.%f").strftime("%s.%f")
             payload = {
-                "mac": df.columns[i],
-                "RSSI": row[i],
+                "mac": row[1],
+                "RSSI": row[2],
                 "timestamp": timestamp
-            }
+                }
             client.publish("rssi/1", json.dumps(payload))
             print(f"Published {json.dumps(payload)}")
             timestamp += 1

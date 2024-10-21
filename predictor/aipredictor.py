@@ -45,7 +45,7 @@ class RSSIPredictor:
             #send the position to the api-service by an http post request
             url = "http://localhost:5000/api-service/update"
             headers = {'Content-Type': 'application/json'}
-            print(data)
+            # print(data)
             response = requests.post(url, headers=headers, data=json.dumps(data))
 
     def predict(self):
@@ -64,6 +64,7 @@ class RSSIPredictor:
                 position = self.positioning.predict(scaled_values)[0]
                 for mac in self.rssi.keys():
                     del self.rssi[mac][0]    
+                print(position)
                 return position
         return None
             
@@ -91,7 +92,7 @@ class MqttClient:
             timestamp = payload_json.get("timestamp")
 
             if mac_address and rssi is not None:
-                logging.info(f"Ricevuto {json.dumps(payload_json)} al tempo '{timestamp}'")
+                # logging.info(f"Ricevuto {json.dumps(payload_json)} al tempo '{timestamp}'")
                 # Controlla se il timestamp è più recente rispetto all'ultimo salvato
                 last_timestamp = self.predictor.getlastrssi(mac_address)
                 if  last_timestamp is None or  last_timestamp < timestamp:
@@ -111,7 +112,7 @@ class MqttClient:
            
         
     def on_message(self, mosq, obj, msg):
-        logger.info(f"Ricevuto messaggio: {msg.topic} {str(msg.payload)}")
+        # logger.info(f"Ricevuto messaggio: {msg.topic} {str(msg.payload)}")
         # collect rssi data from mesg and when ready computes the position
         try:
             # id should be taked by last part of topic

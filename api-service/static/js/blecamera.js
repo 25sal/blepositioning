@@ -57,7 +57,7 @@ function setBleCamera(){
     const camera = document.querySelector('#myCamera');
     getMyPosition().then((position) => {
         console.log(position);
-        camera.setAttribute('position', {x: position.y+100, y: position.z, z: position.x+120});
+        camera.setAttribute('position', {x: position.y*10-10, y: position.z, z: position.x*10-12});
         
         // Usa lookAt per far sì che la fotocamera guardi sempre verso il centro dell'oggetto (coordinates: centerX, centerY, centerZ)
         lookObj('cam', 'model');
@@ -84,7 +84,7 @@ function setBleCamera(){
 setInterval(() => {
     //currentLon += step; // Move slightly east
     setBleCamera();
-  }, 3000); // Every 3 seconds
+  }, 500); // Every 3 seconds
 
 
 

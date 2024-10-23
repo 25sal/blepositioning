@@ -7,7 +7,7 @@ import time
 
 if __name__ == "__main__":
 
-    df =pd.read_csv('data/test/3.Avanti_indietro_centrale.csv')
+    df =pd.read_csv('data/test/4_Circonferenza.csv')
     print(df.head())
     
 
@@ -33,7 +33,7 @@ if __name__ == "__main__":
             client.publish("rssi/1", json.dumps(payload))
             print(f"Published {json.dumps(payload)}")
             timestamp += 1
-            time.sleep(1)
+            time.sleep(0.5)
    
     
     

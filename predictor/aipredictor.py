@@ -21,7 +21,7 @@ sys.path.append(str(path_root))
 class RSSIPredictor:
     ready = False
     rssi = {}
-    rssiwindow = 4
+    rssiwindow = 3
     positioning = None
    
     def __init__(self, aimodel):
@@ -32,7 +32,7 @@ class RSSIPredictor:
         self.positioning.model_x = model['model_x']
         self.positioning.model_y = model['model_y']
     
-    def addrssi(self, rssi, mac):
+    def addrssi(self, rssi, mac, update=True):
         # add rssi to the model
         if mac not in self.rssi:
             self.rssi[mac] = []
@@ -40,13 +40,17 @@ class RSSIPredictor:
 
         next_positions = self.predict()
     
-        if next_positions is not None:
+        if next_positions is not None and update:
             data = {'id': 1, 'x': next_positions[0], 'y': next_positions[1], 'z': 0}
             #send the position to the api-service by an http post request
             url = "http://localhost:5000/api-service/update"
             headers = {'Content-Type': 'application/json'}
             # print(data)
             response = requests.post(url, headers=headers, data=json.dumps(data))
+        
+            return data
+        
+        return next_positions
 
     def predict(self):
         if len(self.rssi.keys())>=3 :
@@ -62,8 +66,10 @@ class RSSIPredictor:
             if len(avg_values) >= 3:
                 scaled_values = self.scaler.transform([list(avg_values)])
                 position = self.positioning.predict(scaled_values)[0]
+                
                 for mac in self.rssi.keys():
-                    del self.rssi[mac][0]    
+                    del self.rssi[mac][0]
+                    
                 print(position)
                 return position
         return None

@@ -59,5 +59,5 @@ def create_db():
 if __name__ == '__main__':
     from models import Positions
     create_db()
-    app.run(host="0.0.0.0", debug=True)
+    app.run(ssl_context=('cert.pem', 'key.pem'), host="0.0.0.0", port=443, debug=True)
         
